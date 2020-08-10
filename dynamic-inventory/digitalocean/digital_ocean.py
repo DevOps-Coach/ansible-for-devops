@@ -153,7 +153,7 @@ class DoManager:
     def _url_builder(self, path):
         if path[0] == '/':
             path = path[1:]
-        return '%s/%s' % (self.api_endpoint, path)
+        return '%s/%s' % (self.api_endpoint, path   )
 
     def send(self, url, method='GET', data=None):
         url = self._url_builder(url)

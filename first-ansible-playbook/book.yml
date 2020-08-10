@@ -1,0 +1,18 @@
+---
+- hosts: all
+  become: yes
+
+  tasks:
+    - name: Ensure chrony (for time synchronization) is installed.
+      yum:
+        name: chrony
+        state: present
+    - name: Ensure chrony is running.
+      service:
+        name: chronyd
+        state: started
+        enabled: yes
+    - name: ensure git installed.
+      yum:
+        name: git
+        state: present

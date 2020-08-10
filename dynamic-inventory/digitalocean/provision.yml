@@ -23,7 +23,7 @@
       add_host:
         name: "{{ do.data.ip_address }}"
         groups: do
-        ansible_ssh_extra_args: '-o StrictHostKeyChecking=no'
+          ansible_ssh_extra_args: '-o StrictHostKeyChecking=no'
       when: do.data is defined
       changed_when: False
 
