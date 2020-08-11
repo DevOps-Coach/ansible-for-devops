@@ -2,6 +2,13 @@
 
 [![Build Status](https://travis-ci.org/geerlingguy/ansible-for-devops.svg?branch=master)](https://travis-ci.org/geerlingguy/ansible-for-devops) [![GitHub CI](https://github.com/geerlingguy/ansible-for-devops/workflows/CI/badge.svg?branch=master&event=push)](https://github.com/devops-coach/ansible-for-devops/actions)
 
+Vagrant box image：
+
+- geerlingguy/centos7
+- geerlingguy/centos8
+- geerlingguy/ubuntu2004
+- geerlingguy/debian9
+
 ---- 以下是原始 Readme 内容 ----
 
 This repository contains Ansible examples developed to support different sections of [Ansible for DevOps](https://www.ansiblefordevops.com/), a book on [Ansible](http://www.ansible.com/) by [Jeff Geerling](https://www.jeffgeerling.com/).
