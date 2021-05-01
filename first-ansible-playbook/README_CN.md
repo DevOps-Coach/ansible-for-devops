@@ -1,6 +1,6 @@
 # 第一个 Ansible Playbook 演示虚拟机
 
-这个项目旋创建一个虚拟机，并演示了一个非常简单的 Ansible Playbook。
+这个项目创建一个虚拟机，并演示了一个非常简单的 Ansible Playbook。
 
 ## 快速入门指南
 
@@ -10,7 +10,7 @@
   2. 下载并安装 [Vagrant](http://www.vagrantup.com/downloads.html)。
   3. [仅限 Mac/Linux]安装[Ansible](http://docs.ansible.com/intro_installation.html)。
 
-Windows用户注意。*本指南假设您使用的是Mac或Linux主机。目前不支持Windows主机。*
+Windows请用户注意。*本指南假设您使用的是Mac或Linux主机。目前不支持Windows主机。如报错请自行调试。*
 
 ### 2 - 构建虚拟机
 
@@ -20,7 +20,7 @@ Windows用户注意。*本指南假设您使用的是Mac或Linux主机。目前�
 
 注意： *如果在运行`vagrant up`的过程中出现任何错误，并且它让你回到命令提示符，只需运行`vagrant provision`继续从你离开的地方构建虚拟机。如果这样做了几次之后仍然有错误，请在GitHub上的项目问题队列中发布一个问题，并注明错误。*
 
-### 代码说明
+### 3 - 代码说明
 
 ```yml
 ---
@@ -40,7 +40,7 @@ Windows用户注意。*本指南假设您使用的是Mac或Linux主机。目前�
       enabled: yes  # 开机启动
 
 # The same as the above play, but in super-compact form!
-# 这是超级简洁的无废话编写模式，功能和上一样
+# 这是超级简洁的无废话代码，功能和上面的代码一样
 - hosts: all
   become: yes
   tasks:
