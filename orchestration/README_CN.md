@@ -28,6 +28,7 @@ Windows用户注意。*本指南假设您使用的是Mac或Linux主机。目前�
 #### ansible.cfg
 
 定义当前目录下执行 ansible 命令的配置参数， cfg 文件中调用了 当前目录下的 hosts.ini 清单文件。
+
 ```
 [defaults]
 inventory = hosts.ini
@@ -35,6 +36,10 @@ nocows = True
 ```
 
 #### hosts.ini
+
+被管理服务器定义清单文件 inventory 。
+
+
 
 ```
 # Application servers
@@ -64,9 +69,156 @@ ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 
 
 
+
+
 ### 3 - 创建一个清单文件，并运行`ansible`命令。
 
 详情请阅读【Ansible for DevOps】(https://www.ansiblefordevops.com/)第三章。
+
+
+### 运行 ad-hoc 命令
+
+运行多次下面的命令，了解多线程并发的特性
+
+ansible multi -a "hostname"
+ansible multi -a "hostname"
+ansible multi -a "hostname"
+
+ansible multi -a "hostname" -f 1
+ansible multi -a "hostname" -f 1
+ansible multi -a "hostname" -f 1
+
+环境状况检查
+
+ansible multi -a "df -h"
+
+ansible multi -a "free -m"
+
+ansible multi -a "date"
+
+使用 Ansible 模块做变更
+
+ansible multi -b -m yum -a "name=chrony state=present"
+
+ansible multi -b -m service -a "name=chronyd state=started enabled=yes"
+
+ansible multi -b -a "chronyc tracking"
+
+ansible multi -a "date"
+
+配置服务器组和单一服务器
+
+配置应用服务器：安装 python3 和 django
+
+ansible app -b -m yum -a "name=python3-pip state=present"
+
+ansible app -b -m pip -a "name=django<4 state=present"
+
+
+ansible app -a "python -m django --version"
+
+配置数据库服务器
+
+ansible db -b -m yum -a "name=mariadb-server state=present"
+
+ansible db -b -m service -a "name=mariadb state=started enabled=yes"
+
+ansible db -b -m yum -a "name=firewalld state=present"
+
+ansible db -b -m service -a "name=firewalld state=started enabled=yes"
+
+ansible db -b -m firewalld -a "zone=database state=present permanent=yes"
+
+ansible db -b -m firewalld -a "source=192.168.60.0/24 zone=database state=enabled permanent=yes"
+
+ansible db -b -m firewalld -a "port=3306/tcp zone=database state=enabled permanent=yes"
+
+ansible db -b -m yum -a "name=python3-PyMySQL state=present"
+
+ansible db -b -m mysql_user -a "name=django host=% password=12345 priv=*.*:ALL state=present"
+
+对服务器组中的某一个执行命令
+
+ansible app -b -a "service chronyd restart" --limit "192.168.60.4"
+
+用星号匹配
+
+ansible app -b -a "service ntpd restart" --limit "*.4"
+
+用正则表达式匹配
+
+ansible app -b -a "service ntpd restart" --limit ~".*\.4"
+
+
+管理用户和组
+
+ansible app -b -m group -a "name=admin state=present"
+
+ansible app -b -m user -a "name=johndoe group=admin createhome=yes"
+
+ansible app -b -m user -a "name=johndoe state=absent remove=yes"
+
+管理软件包
+
+ansible app -b -m package -a "name=git state=present"
+
+管理文件和目录
+
+查看文件属性
+
+ansible multi -m stat -a "path=/etc/environment"
+
+从本地复制文件到服务器
+
+ansible multi -m copy -a "src=/etc/hosts dest=/tmp/hosts"
+
+从服务器上下载文件
+
+ansible multi -b -m fetch -a "src=/etc/hosts dest=/tmp"
+
+创建目录和文件
+
+ansible multi -m file -a "dest=/tmp/test mode=644 state=directory"
+
+ansible multi -m file -a "src=/src/file dest=/dest/symlink state=link"
+
+删除目录和文件
+
+ansible multi -m file -a "dest=/tmp/test state=absent"
+
+用异步作业异步的更新服务器
+
+ansible multi -b -B 3600 -P 0 -a "yum -y update"
+
+ansible multi -b -m async_status -a "jid=169825235950.3572"
+
+查看日志的方法
+
+ansible multi -b -a "tail /var/log/messages"
+
+ansible multi -b -m shell -a "tail /var/log/messages | \
+grep ansible-command | wc -l"
+
+管理 cron 作业
+
+ansible multi -b -m cron -a "name='daily-cron-all-servers' \
+hour=4 job='/path/to/daily-script.sh'"
+
+ansible multi -b -m cron -a "name='daily-cron-all-servers' \
+state=absent"
+
+部署版本控制的应用
+
+ansible app -b -m git -a "repo=git://example.com/path/to/repo.git \
+dest=/opt/myapp update=yes version=1.2.4"
+
+ansible app -b -a "/opt/myapp/update.sh"
+
+Ansible 的 SSH 连接历史
+
+
+
+
 
 ## 关于作者
 
